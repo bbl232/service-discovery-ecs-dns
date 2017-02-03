@@ -20,13 +20,14 @@ import (
 	"strings"
 	"time"
 	"flag"
+	"os"
 )
 
 const workerTimeout = 180 * time.Second
 const defaultTTL = 0
 const defaultWeight = 1
 
-var DNSName = "servicediscovery.internal"
+var DNSName = os.Getenv("DNS_ZONE")
 
 type handler interface {
 	Handle(*docker.APIEvents) error

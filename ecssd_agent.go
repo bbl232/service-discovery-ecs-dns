@@ -236,6 +236,11 @@ func deleteDNSRecord(serviceName string, dockerId string) error {
 	}
 	srvValue := ""
 	for _, rrset := range resp.ResourceRecordSets {
+		fmt.Println("SetID " +  *rrset.SetIdentifier)
+		fmt.Println("Name " +  *rrset.Name)
+		fmt.Println("dockerId " +  dockerId)
+		fmt.Println("srvRecordName " +  srvRecordName)
+		
 		if *rrset.SetIdentifier == dockerId && (*rrset.Name == srvRecordName || *rrset.Name == srvRecordName+".") {
 			for _, rrecords := range rrset.ResourceRecords {
 				srvValue = aws.StringValue(rrecords.Value)

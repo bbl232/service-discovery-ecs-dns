@@ -217,6 +217,7 @@ func createDNSRecord(serviceName string, dockerId string, port string) error {
 }
 
 func deleteDNSRecord(serviceName string, dockerId string) error {
+	fmt.Println("Service " + serviceName + ", dockerId "+ dockerId)
 	var err error
 	r53 := route53.New(session.New())
 	srvRecordName := serviceName + "." + DNSName
@@ -235,7 +236,7 @@ func deleteDNSRecord(serviceName string, dockerId string) error {
 	}
 	srvValue := ""
 	for _, rrset := range resp.ResourceRecordSets {
-		if rrset != nil && *rrset.SetIdentifier == dockerId && (*rrset.Name == srvRecordName || *rrset.Name == srvRecordName+".") {
+		if *rrset.SetIdentifier == dockerId && (*rrset.Name == srvRecordName || *rrset.Name == srvRecordName+".") {
 			for _, rrecords := range rrset.ResourceRecords {
 				srvValue = aws.StringValue(rrecords.Value)
 				break
